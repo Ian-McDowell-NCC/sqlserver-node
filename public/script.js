@@ -1,5 +1,6 @@
-fetch('/api/hello')
+//get data and parse it as a string
+fetch('/api/data')
 .then(res => res.json())
   .then(data => {
-    document.getElementById('message').innerText = data.hello;
+    document.getElementById('text').innerText = JSON.stringify(data);
   });

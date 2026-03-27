@@ -1,0 +1,6 @@
+{
+  "name": "Node 20 Codespace",
+  "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:20",
+  "features": {},
+  "postCreateCommand": "npm install"
+}

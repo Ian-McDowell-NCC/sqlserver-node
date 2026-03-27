@@ -4,25 +4,20 @@
 import express from 'express'
 import sql from 'mssql';
 import { config } from './config.js';
-import { findReservationById } from './select.js';
+import { runSQLfile, runSingleQuery } from './query.js';
 import 'dotenv/config';
 
-
+//set up localhost for frontend
 const app = express()
 const port = 3000
-
 app.use(express.static('public'))
 
-app.get('/api/hello', (req, res) => {
-  res.json({'hello': 'Hello World!'})
-})
-
-
+//output port to log
 app.listen(port, () => {
   console.log(`App listening on port ${port}`)
 })
 
-
+//verify connection to databse
 const connect = async () => {
   try {
     await sql.connect(config);
@@ -34,9 +29,11 @@ const connect = async () => {
 
 connect();
 
+//runSQLfile('./queries.sql');
+const result = await runSingleQuery(`SELECT * FROM Reservation`);
+//console.log(result[0])
 
-app.get('/api/hello', (req, res) => {
-  res.json({ message: 'Hello from Node.js!' });
-});
-const author = await findReservationById(324293838);
-console.log(author);
+//send data to frontend as json
+app.get('/api/data', (req, res) => {
+  res.json(result)
+})
