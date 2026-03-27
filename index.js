@@ -5,6 +5,7 @@ import express from 'express'
 import sql from 'mssql';
 import { config } from './config.js';
 import { findReservationById } from './select.js';
+import 'dotenv/config';
 
 
 const app = express()
