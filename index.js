@@ -30,10 +30,38 @@ const connect = async () => {
 connect();
 
 //runSQLfile('./queries.sql');
-const result = await runSingleQuery(`SELECT * FROM Reservation`);
-//console.log(result[0])
 
+//console.log(result[0])
 //send data to frontend as json
-app.get('/api/data', (req, res) => {
-  res.json(result)
+
+app.get('/api/data', async (req, res) => {
+  const results = [];
+  for (const q in req.query) {
+    switch (req.query[q]) {
+      //perform whatever SQL queries the get request is sent from the url parameters
+      //holds results in an array
+      case "reservation":
+        results[results.length] = await runSingleQuery(`SELECT * FROM Reservation`);
+        break;
+      case "table":
+        results[results.length] = await runSingleQuery(`SELECT * FROM RestaurantTable`);
+        break;
+      case "waitstaff":
+        results[results.length] = await runSingleQuery(`SELECT * FROM WaitStaff`);
+        break;
+      case "user":
+        results[results.length] = await runSingleQuery(`SELECT * FROM SystemUser`);
+        break;
+      case "restaurant":
+        results[results.length] = await runSingleQuery(`SELECT * FROM Restaurant`);
+        break;
+      default:
+        if (results.length == 0) {
+          results[0] = "error";
+        }
+    }
+  }
+  console.log(req.query);
+  res.json(results);
 })
+
