@@ -29,11 +29,13 @@ const connect = async () => {
 
 connect();
 
-// runSQLfile('./queries.sql');
+runSQLfile('./queries.sql');
+
+//update PartyName
+//runSingleQuery("UPDATE Reservation SET PartyName = 'Alfred Schmidt' WHERE ReservationID = 324293838;")
 
 // console.log(result[0])
 // Send data to frontend as JSON
-
 app.get('/api/data', async (req, res) => {
   const results = [];
   for (const q in req.query) {
@@ -61,6 +63,6 @@ app.get('/api/data', async (req, res) => {
         }
     }
   }
-  console.log(req.query);
+  console.log(req.query.req9 == undefined);
   res.json(results);
 })
